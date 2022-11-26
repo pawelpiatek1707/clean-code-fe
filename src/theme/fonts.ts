@@ -1,19 +1,19 @@
 interface Font {
-    fontSize: number
-    lineHeight: number
+    fontSize: string
+    lineHeight: string
 }
 
 export const fonts: Record<string, Font> = {
     header1: {
-        fontSize: 32,
-        lineHeight: 50
+        fontSize: '32px',
+        lineHeight: '50px'
     },
     textXL: {
-        fontSize: 16,
-        lineHeight: 22
+        fontSize: '16px',
+        lineHeight: '22px'
     },
     textL: {
-        fontSize: 14,
-        lineHeight: 21
+        fontSize: '14px',
+        lineHeight: '21px'
     }
 }
