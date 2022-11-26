@@ -10,7 +10,7 @@ interface Props {
     type?: INPUT_TYPE
 }
 
-export const InputComponent = ({ label, placeholder, value, type = INPUT_TYPE.PASSWORD }: Props) => {
+export const InputComponent = ({ label, placeholder, type = INPUT_TYPE.PASSWORD }: Props) => {
     return (
         <Container>
             {label && <Label>{label}</Label>}

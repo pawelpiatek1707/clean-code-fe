@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import {fonts, colors} from '../../theme'
+import {fonts} from '../../theme'
 import backgroundImage from '../../assets/images/signInImage.webp'
 
 export const Container = styled.div`
