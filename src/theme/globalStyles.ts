@@ -7,7 +7,6 @@ export const GlobalStyle = createGlobalStyle`
   margin: 0;
   padding: 0;
   box-sizing: inherit;
-  /*styles for all things on my page*/
 }
 
   body {
@@ -15,5 +14,6 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: Poppins;
     box-sizing: border-box;
+    font-size: 16px;
   }
 `;

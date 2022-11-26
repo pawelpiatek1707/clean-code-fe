@@ -4,6 +4,7 @@ import backgroundImage from '../../assets/images/signInImage.webp'
 
 export const Container = styled.div`
     display: flex;
+    height: 100vh;
 `
 
 export const ContainerLeft = styled.div`
@@ -11,6 +12,7 @@ export const ContainerLeft = styled.div`
     height: 100vh;
     background-image: url(${backgroundImage});
     background-position: center;
+    background-repeat: no-repeat;
 `
 
 export const ContainerRight = styled.div`
@@ -24,4 +26,12 @@ export const Header = styled.h1`
 
 export const Form = styled.form`
     margin-top: 96px;
+`
+
+export const PasswordInputContainer = styled.div`
+    margin-top: 48px;
+`
+
+export const ButtonContainer = styled.div`
+    margin-top: 48px;
 `

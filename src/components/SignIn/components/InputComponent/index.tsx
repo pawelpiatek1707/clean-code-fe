@@ -8,13 +8,14 @@ interface Props {
     label?: string
     placeholder?: string
     type?: INPUT_TYPE
+    error?: boolean
 }
 
-export const InputComponent = ({ label, placeholder, type = INPUT_TYPE.PASSWORD }: Props) => {
+export const InputComponent = ({ label, placeholder, error, type = INPUT_TYPE.PASSWORD }: Props) => {
     return (
         <Container>
             {label && <Label>{label}</Label>}
-            <InputContainer>
+            <InputContainer error={error}>
                 {type === INPUT_TYPE.EMAIL ? <MailIcon /> : <KeyIcon/>}
                 <Input placeholder={placeholder} />
             </InputContainer>
