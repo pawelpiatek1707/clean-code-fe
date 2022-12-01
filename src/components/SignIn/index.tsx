@@ -1,8 +1,8 @@
-import { EMAIL_REGEX } from '@/consts';
-import { ROUTING_PATHS } from '@/enums';
 import { Button, Form, Input } from 'antd';
 import { Rule } from 'antd/es/form';
 import { useNavigate } from 'react-router-dom';
+import { ROUTING_PATHS } from '@/enums';
+import { EMAIL_REGEX } from '@/consts';
 import { Spacer } from '../common';
 import { Container, ContainerLeft, ContainerRight, FormContainer, Header } from './SignIn.styles';
 

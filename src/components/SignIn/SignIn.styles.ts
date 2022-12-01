@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Typography } from 'antd';
-import { colors } from '@/theme/colors';
 import backgroundImage from '@/assets/images/signInImage.webp';
+import { colors } from '@/theme/colors';
 
 const { Title } = Typography;
 
