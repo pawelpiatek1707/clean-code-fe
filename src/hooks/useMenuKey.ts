@@ -1,5 +1,5 @@
-import { MENU_ITEM_KEYS, ROUTING_PATHS } from '@/enums';
 import { useLocation } from 'react-router-dom';
+import { MENU_ITEM_KEYS, ROUTING_PATHS } from '@/enums';
 
 export const useMenuKey = () => {
   const { pathname } = useLocation();
