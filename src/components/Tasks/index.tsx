@@ -1,7 +1,5 @@
-export const Tasks = () => {
-    return (
-        <div>
-            Tasks page
-        </div>
-    )
-}
+const Tasks = () => {
+  return <div>Tasks page</div>;
+};
+
+export default Tasks;
