@@ -1,37 +1,42 @@
-import styled from "styled-components"
-import {fonts} from '../../theme'
-import backgroundImage from '../../assets/images/signInImage.webp'
+import styled from 'styled-components';
+import { Typography } from 'antd';
+import { colors } from '@/theme/colors';
+import backgroundImage from '@/assets/images/signInImage.webp';
+
+const { Title } = Typography;
 
 export const Container = styled.div`
-    display: flex;
-    height: 100vh;
-`
+  display: flex;
+  height: 100vh;
+`;
 
 export const ContainerLeft = styled.div`
-    width: 40%;
-    height: 100vh;
-    background-image: url(${backgroundImage});
-    background-position: center;
-    background-repeat: no-repeat;
-`
+  width: 40%;
+  height: 100vh;
+  background-image: url(${backgroundImage});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
 
 export const ContainerRight = styled.div`
-    padding: 104px 128px ;
-`
+  width: 60%;
+  height: 100vh;
+  position: relative;
+`;
 
-export const Header = styled.h1`
-    font-size: ${fonts.header1.fontSize};
-    line-height: ${fonts.header1.lineHeight};
-`
+export const FormContainer = styled.div`
+  width: 480px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: ${colors.grayPrimary};
+  padding: 48px 32px;
+  border-radius: 10px;
+`;
 
-export const Form = styled.form`
-    margin-top: 96px;
-`
-
-export const PasswordInputContainer = styled.div`
-    margin-top: 48px;
-`
-
-export const ButtonContainer = styled.div`
-    margin-top: 48px;
-`
+export const Header = styled(Title)`
+  margin-bottom: 48px !important;
+  text-align: center;
+`;
