@@ -30,7 +30,7 @@
   ],
   "rules": {
     "no-shadow": "off",
-    "no-console": "error",
+    "no-console": "warn",
     "prefer-const": "error",
     "no-useless-escape": "off",
     "import/no-unresolved": "off",
