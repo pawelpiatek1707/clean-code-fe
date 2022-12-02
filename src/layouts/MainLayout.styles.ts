@@ -22,3 +22,8 @@ export const Logo = styled(CodeOutlined)`
 export const LogoText = styled.p`
   color: ${colors.lightPrimary};
 `;
+
+export const ContentContainer = styled.div`
+  height: 100vh;
+  overflow-y: auto;
+`;

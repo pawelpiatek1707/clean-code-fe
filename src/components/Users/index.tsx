@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Table from 'antd/es/table';
 import { Typography } from 'antd';
 import { AddItemButton, PageHeader, Spacer } from '../common';
-import { ButtonContainer, Container } from './Users.styles';
+import { Container } from './Users.styles';
 import { columns, data } from './mocks/usersMock';
 import { AddUserModal } from './components/AddUserModal';
 
