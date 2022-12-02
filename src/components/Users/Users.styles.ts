@@ -1,9 +1,7 @@
 import styled from 'styled-components';
-import { Typography, Button } from 'antd';
+import { Button } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { colors, fonts } from '@/theme';
-
-const { Title } = Typography;
 
 export const Container = styled.div`
   padding: 32px;

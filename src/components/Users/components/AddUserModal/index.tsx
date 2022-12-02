@@ -1,7 +1,7 @@
-import { Spacer } from '@/components/common';
-import { EMAIL_REGEX } from '@/consts';
 import { Modal, Form, Input } from 'antd';
 import { Rule } from 'antd/es/form';
+import { Spacer } from '@/components/common';
+import { EMAIL_REGEX } from '@/consts';
 
 interface Props {
   isOpen: boolean;
