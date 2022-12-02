@@ -11,10 +11,6 @@ export const Container = styled.div`
   margin: 0 auto;
 `;
 
-export const Header = styled(Title)`
-  margin-bottom: -8px !important;
-`;
-
 export const Delete = styled(DeleteOutlined)`
   color: ${colors.redPrimary};
   font-size: ${fonts.textXL.fontSize};
@@ -28,7 +24,7 @@ export const Edit = styled(EditOutlined)`
   cursor: pointer;
 `;
 
-export const AddUserButton = styled(Button)`
+export const ButtonContainer = styled(Button)`
   margin-bottom: 48px;
   padding-left: 0;
   padding-right: 0;

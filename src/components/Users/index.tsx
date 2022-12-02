@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Table from 'antd/es/table';
-import { Space, Typography, Modal } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { AddUserButton, Container, Header } from './Users.styles';
+import { Typography } from 'antd';
+import { AddItemButton, PageHeader, Spacer } from '../common';
+import { ButtonContainer, Container } from './Users.styles';
 import { columns, data } from './mocks/usersMock';
 import { AddUserModal } from './components/AddUserModal';
 
@@ -17,13 +17,9 @@ const Users = () => {
 
   return (
     <Container>
-      <Header>Użytkownicy</Header>
-      <AddUserButton type="link" onClick={handleModalOpen}>
-        <Space>
-          <PlusOutlined />
-          <p>Dodaj użytkownika</p>
-        </Space>
-      </AddUserButton>
+      <PageHeader>Użytkownicy</PageHeader>
+      <AddItemButton text="Dodaj użytkownika" onClick={handleModalOpen} />
+      <Spacer height={36} />
       {!data || data.length === 0 ? (
         <Title level={4}>Brak użytkowników do wyświetlenia :(</Title>
       ) : (
