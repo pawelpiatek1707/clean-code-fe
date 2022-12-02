@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Typography } from 'antd';
+import { Typography, Button } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { colors, fonts } from '@/theme';
 
@@ -12,7 +12,7 @@ export const Container = styled.div`
 `;
 
 export const Header = styled(Title)`
-  margin-bottom: 32px !important;
+  margin-bottom: -8px !important;
 `;
 
 export const Delete = styled(DeleteOutlined)`
@@ -26,4 +26,10 @@ export const Edit = styled(EditOutlined)`
   color: ${colors.blueSecondary};
   font-size: ${fonts.textXL.fontSize};
   cursor: pointer;
+`;
+
+export const AddUserButton = styled(Button)`
+  margin-bottom: 48px;
+  padding-left: 0;
+  padding-right: 0;
 `;
