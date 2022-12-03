@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Layout, Menu, MenuProps } from 'antd';
 import { AlertOutlined, CalendarOutlined, UserOutlined } from '@ant-design/icons';
-import { LayoutContainer, Logo, LogoContainer, LogoText } from './MainLayout.styles';
+import { ContentContainer, LayoutContainer, Logo, LogoContainer, LogoText } from './MainLayout.styles';
 import { MENU_ITEM_KEYS, ROUTING_PATHS } from '@/enums';
 import { useMenuKey } from '@/hooks';
 
@@ -42,7 +42,9 @@ const MainLayout = () => {
       </Sider>
       <Layout>
         <Content>
-          <Outlet />
+          <ContentContainer>
+            <Outlet />
+          </ContentContainer>
         </Content>
       </Layout>
     </LayoutContainer>
