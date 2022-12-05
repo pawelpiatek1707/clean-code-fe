@@ -1,10 +1,12 @@
+import { Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+import { DeleteButton, EditButton } from '@/components/common';
 
 interface DataType {
   key: React.Key;
   title: string;
   description: string;
-  isChecked: boolean
+  isChecked: string;
 }
 
 export const columns: ColumnsType<DataType> = [
@@ -15,11 +17,10 @@ export const columns: ColumnsType<DataType> = [
     title: '',
     key: 'action',
     render: () => (
-      <></>
-      //   <Space size="middle">
-      //     <Delete />
-      //     <Edit />
-      //   </Space>
+      <Space size="middle">
+        <DeleteButton />
+        <EditButton />
+      </Space>
     )
   }
 ];
@@ -29,24 +30,24 @@ export const data: DataType[] = [
     key: '1',
     title: 'Zadanie 1',
     description: 'Opis pierwszego zadania',
-    isChecked: true
+    isChecked: 'W trakcie'
   },
   {
     key: '1',
     title: 'Zadanie 2',
     description: 'Opis pierwszego zadania',
-    isChecked: false
+    isChecked: 'Zakończone'
   },
   {
     key: '1',
     title: 'Zadanie 3',
     description: 'Opis pierwszego zadania',
-    isChecked: true
+    isChecked: 'Zakończone'
   },
   {
     key: '1',
     title: 'Zadanie 4',
     description: 'Opis pierwszego zadania',
-    isChecked: false
+    isChecked: 'W trakcie'
   }
 ];

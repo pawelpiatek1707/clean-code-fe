@@ -1,4 +1,6 @@
+import { Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+import { DeleteButton, EditButton } from '@/components/common';
 
 interface DataType {
   key: React.Key;
@@ -17,11 +19,10 @@ export const columns: ColumnsType<DataType> = [
     title: '',
     key: 'action',
     render: () => (
-      <></>
-      //   <Space size="middle">
-      //     <Delete />
-      //     <Edit />
-      //   </Space>
+      <Space size="middle">
+        <DeleteButton />
+        <EditButton />
+      </Space>
     )
   }
 ];
