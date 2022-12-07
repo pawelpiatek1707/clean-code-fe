@@ -6,5 +6,6 @@ export const colors = {
   textColorPrimary: '#111111',
   grayPrimary: '#f5f5f5',
   graySecondary: '#D2D2D2',
+  grayTertiary: '#bfbfbf',
   redPrimary: '#f5222d'
 };

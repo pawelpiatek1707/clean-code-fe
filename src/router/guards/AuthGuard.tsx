@@ -1,6 +1,6 @@
+import { Navigate } from "react-router-dom";
 import { ROUTING_PATHS } from "@/enums";
 import { getToken } from "@/api/helpers";
-import { Navigate } from "react-router-dom";
 
 interface Props {
   children: React.ReactNode;
