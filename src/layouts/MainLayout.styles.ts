@@ -1,10 +1,16 @@
 import { CodeOutlined } from '@ant-design/icons';
-import { Layout } from 'antd';
+import { Layout, Button } from 'antd';
 import styled from 'styled-components';
 import { colors } from '@/theme';
 
+const {Sider} = Layout
+
 export const LayoutContainer = styled(Layout)`
   height: 100vh;
+`;
+
+export const SideBar = styled(Sider)`
+  position: relative;
 `;
 
 export const LogoContainer = styled.div`
@@ -26,4 +32,18 @@ export const LogoText = styled.p`
 export const ContentContainer = styled.div`
   height: 100vh;
   overflow-y: auto;
+`;
+
+export const BottomContainer = styled.div`
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+`
+
+export const SignOutButton = styled(Button)`
+  color: ${colors.grayTertiary};
+  &:hover {
+    color: ${colors.lightPrimary}!important;
+    transition: .3;
+  }
 `;
