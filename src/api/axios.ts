@@ -3,7 +3,8 @@ import { BASE_URL } from './consts'
 import { getToken } from './helpers'
 
 const axios = a.create({
-    baseURL: BASE_URL
+    baseURL: BASE_URL,
+    withCredentials: false
 })
 
 axios.interceptors.request.use(
