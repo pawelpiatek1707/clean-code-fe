@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 import { ROUTING_PATHS } from '../enums';
+import { GuestGuard, AuthGuard } from './guards';
 import { SuspenseComponent } from './utils/SuspenseComponent';
 
 const MainLayout = SuspenseComponent(lazy(() => import('../layouts/MainLayout')));
@@ -19,10 +20,18 @@ export const useRouter = () => {
     },
     {
       path: ROUTING_PATHS.SIGN_IN,
-      element: SignIn
+      element: (
+        <GuestGuard>
+          {SignIn}
+        </GuestGuard>
+      )
     },
     {
-      element: MainLayout,
+      element: (
+        <AuthGuard>
+          {MainLayout}
+        </AuthGuard>
+      ),
       children: [
         {
           path: ROUTING_PATHS.TASKS,
