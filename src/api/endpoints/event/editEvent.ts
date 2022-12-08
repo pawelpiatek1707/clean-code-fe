@@ -1,0 +1,1 @@
+export const EDIT_EVENT = 'events/edit'

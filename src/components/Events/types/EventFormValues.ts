@@ -1,4 +1,4 @@
-export interface AddEventFormValues {
+export interface EventFormValues {
     title: string
     description: string
     startDate: string
