@@ -1,30 +1,31 @@
-import { Form, Input, Modal, DatePicker, Button } from "antd";
+import { Button, DatePicker, Form, Input, Modal } from "antd"
 import dayjs from 'dayjs'
 import { useState } from 'react'
-import { Spacer } from "@/components/common";
-import { DateContainer, DatePickerContainer } from "./AddEventModal.styles";
+import { Spacer } from "@/components/common"
 import { descriptionRules, titleRules } from "../../schema";
-import { EventFormValues } from "../../types/EventFormValues";
+import { EventFormValues } from "../../types";
 import { formatDate } from "../../helpers";
+import { DateContainer, DatePickerContainer } from "./EditEventModal.styles";
+import { Event } from "@/api/types/event/eventsList"
 
 interface Props {
-    isOpen: boolean;
-    handleFormSubmit?: (values: EventFormValues) => void;
-    handleModalClose?: () => void;
+    isOpen: boolean
+    selectedEvent?: Event
+    handleModalClose?: () => void
+    handleFormSubmit?: (values: EventFormValues) => void
 }
 
-export const AddEventModal = ({ isOpen, handleModalClose, handleFormSubmit }: Props) => {
+export const EditEventModal = ({ isOpen, handleModalClose, handleFormSubmit, selectedEvent }: Props) => {
     const [form] = Form.useForm()
-    const [startDate, setStartDate] = useState('')
-    const [endDate, setEndDate] = useState('')
+    const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(dayjs())
+    const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(dayjs())
 
     const submitForm = ({ title, description }: EventFormValues) => {
-
         const newValues: EventFormValues = {
             title,
             description,
-            startDate,
-            endDate
+            startDate: formatDate(startDate),
+            endDate: formatDate(endDate)
         }
         if (handleFormSubmit) {
             handleFormSubmit(newValues)
@@ -33,18 +34,15 @@ export const AddEventModal = ({ isOpen, handleModalClose, handleFormSubmit }: Pr
     }
 
     const handleStartDateChange = (date: dayjs.Dayjs | null) => {
-        const formatedDate = formatDate(date)
-        setStartDate(date ? formatedDate : '')
+        setStartDate(date)
     }
 
     const handleEndDateChange = (date: dayjs.Dayjs | null) => {
-        const formatedDate = formatDate(date)
-        setEndDate(date ? formatedDate : '')
+        setEndDate(date)
     }
-
     return (
         <Modal
-            title="Utwórz wydarzenie"
+            title="Edytuj wydarzenie"
             open={isOpen}
             onCancel={handleModalClose}
             footer={null}
@@ -59,11 +57,11 @@ export const AddEventModal = ({ isOpen, handleModalClose, handleFormSubmit }: Pr
                 autoComplete="off"
             >
                 <Spacer height={24} />
-                <Form.Item label="Tytuł" name="title" rules={titleRules}>
+                <Form.Item label="Tytuł" name="title" rules={titleRules} initialValue={selectedEvent?.title}>
                     <Input />
                 </Form.Item>
                 <Spacer />
-                <Form.Item label="Opis" name="description" rules={descriptionRules}>
+                <Form.Item label="Opis" name="description" rules={descriptionRules} initialValue={selectedEvent?.description}>
                     <Input />
                 </Form.Item>
                 <Spacer />
@@ -76,7 +74,7 @@ export const AddEventModal = ({ isOpen, handleModalClose, handleFormSubmit }: Pr
                 <Spacer />
                 <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
                     <Button type="primary" htmlType="submit">
-                        Utwórz
+                        Edytuj
                     </Button>
                 </Form.Item>
             </Form>

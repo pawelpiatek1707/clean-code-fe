@@ -1,16 +1,9 @@
 import { Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { DeleteButton, EditButton } from '@/components/common';
+import { TableEvent } from '../types';
 
-interface DataType {
-  key: React.Key;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-}
-
-export const columns: ColumnsType<DataType> = [
+export const columns: ColumnsType<TableEvent> = [
   { title: 'Tytuł', dataIndex: 'title' },
   { title: 'Opis', dataIndex: 'description' },
   { title: 'Data rozpoczęcia', dataIndex: 'startDate' },
@@ -27,7 +20,7 @@ export const columns: ColumnsType<DataType> = [
   }
 ];
 
-export const data: DataType[] = [
+export const data: TableEvent[] = [
   {
     key: '1',
     title: 'Wydarzenie 1',

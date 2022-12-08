@@ -1,0 +1,1 @@
+export const DELETE_EVENT = 'events/delete'

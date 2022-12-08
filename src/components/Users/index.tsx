@@ -28,8 +28,8 @@ const Users = () => {
   const [loading, setLoading] = useState(false)
 
   const fetchUsers = async () => {
-    setLoading(true)
     try {
+      setLoading(true)
       const { data } = await axios.get<UsersListResponse>(GET_USERS)
       setUsers(data)
     } catch (e: unknown) {
@@ -44,9 +44,7 @@ const Users = () => {
   }
 
   useEffect(() => {
-
     fetchUsers()
-
   }, [])
 
   const handleModalOpen = () => setIsModalOpen(true);
@@ -75,6 +73,7 @@ const Users = () => {
 
   const createUser = async ({ name, surname, email, password }: CreateUserFormValues) => {
     try {
+      setLoading(true)
       const body: CreateUserRequest = {
         Name: name,
         Surname: surname,
@@ -89,11 +88,17 @@ const Users = () => {
         title: 'Błąd',
         content: 'Nie udało się stworzyć nowego użytkownika'
       })
+    } finally {
+      setLoading(false)
     }
   }
 
   const deleteUser = async () => {
+    if(!selectedUser) {
+      return
+    }
     try {
+      setLoading(true)
       await axios.get<DeleteUserResponse>(`${DELETE_USER}/${selectedUser}`)
       fetchUsers()
       handleDeleteUserModalClose()
@@ -102,10 +107,15 @@ const Users = () => {
         title: 'Błąd',
         content: 'Nie udało się usunąć użytkownika'
       })
+    } finally {
+      setLoading(false)
     }
   }
 
   const editUser = async ({ name, surname, about, city, country, university }: EditUserFormValues) => {
+    if(!selectedUser) {
+      return
+    }
     try {
       const body: EditUserRequest = {
         Name: name,
