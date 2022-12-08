@@ -1,19 +1,9 @@
 import { ColumnsType } from 'antd/es/table';
 import { Space } from 'antd';
 import { DeleteButton, EditButton } from '@/components/common';
+import { TableUser } from '../types';
 
-interface DataType {
-  key: React.Key;
-  name: string;
-  surname: string;
-  email: string;
-  aboutMe: string;
-  city: string;
-  country: string;
-  university: string;
-}
-
-export const columns: ColumnsType<DataType> = [
+export const columns: ColumnsType<TableUser> = [
   { title: 'Imię', dataIndex: 'name' },
   { title: 'Nazwisko', dataIndex: 'surname' },
   { title: 'Email', dataIndex: 'email' },
@@ -33,7 +23,7 @@ export const columns: ColumnsType<DataType> = [
   }
 ];
 
-export const data: DataType[] = [
+export const data: TableUser[] = [
   {
     key: '1',
     name: 'Jan ',

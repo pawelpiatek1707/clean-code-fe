@@ -12,3 +12,7 @@ export const ButtonContainer = styled(Button)`
   padding-left: 0;
   padding-right: 0;
 `;
+
+export const LoaderContainer = styled.div`
+  margin-top: 64px;
+`
