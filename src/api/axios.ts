@@ -13,7 +13,7 @@ axios.interceptors.request.use(
             const accessToken = getToken()
 
             if (accessToken && request && request.headers && (request.headers['Authorization'] === '' || !request.headers['Authorization'])) {
-                request.headers['Authorization'] = `Bearer ${accessToken}`
+                request.headers['token'] = `${accessToken}`
                 return request
             }
         }
