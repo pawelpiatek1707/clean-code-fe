@@ -94,7 +94,11 @@ const Users = () => {
   }
 
   const deleteUser = async () => {
+    if(!selectedUser) {
+      return
+    }
     try {
+      setLoading(true)
       await axios.get<DeleteUserResponse>(`${DELETE_USER}/${selectedUser}`)
       fetchUsers()
       handleDeleteUserModalClose()
@@ -103,10 +107,15 @@ const Users = () => {
         title: 'Błąd',
         content: 'Nie udało się usunąć użytkownika'
       })
+    } finally {
+      setLoading(false)
     }
   }
 
   const editUser = async ({ name, surname, about, city, country, university }: EditUserFormValues) => {
+    if(!selectedUser) {
+      return
+    }
     try {
       const body: EditUserRequest = {
         Name: name,

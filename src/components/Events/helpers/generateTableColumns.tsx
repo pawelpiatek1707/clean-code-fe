@@ -1,6 +1,6 @@
-import { DeleteButton, EditButton } from "@/components/common";
 import { Space } from "antd";
 import { ColumnsType } from "antd/es/table"
+import { DeleteButton, EditButton } from "@/components/common";
 import { TableEvent } from "../types"
 
 export const generateTableColumns = (onDelete?: (id: number) => void, onEdit?: (id: number) => void) => {
