@@ -1,42 +1,61 @@
-import { Form, Input, Modal, DatePicker } from "antd";
-import { Rule } from "antd/es/form";
+import { Form, Input, Modal, DatePicker, Button } from "antd";
+import dayjs from 'dayjs'
+import { useState } from 'react'
 import { Spacer } from "@/components/common";
 import { DateContainer, DatePickerContainer } from "./AddEventModal.styles";
+import { descriptionRules, titleRules } from "../../schema";
+import { AddEventFormValues } from "../../types/AddEventFormValues";
+import { formatDate } from "../../helpers";
 
 interface Props {
     isOpen: boolean;
-    handleFormSubmit?: () => void;
+    handleFormSubmit?: (values: AddEventFormValues) => void;
     handleModalClose?: () => void;
 }
 
-const titleRules: Rule[] = [
-    { required: true, message: 'Tytuł jest wymagane' },
-    { max: 60, message: 'Tytuł jest zbyt długie' }
-];
+export const AddEventModal = ({ isOpen, handleModalClose, handleFormSubmit }: Props) => {
+    const [form] = Form.useForm()
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
 
-const descriptionRules: Rule[] = [
-    { required: true, message: 'Opis jest wymagane' },
-    { max: 60, message: 'Opis jest zbyt długie' }
-];
+    const submitForm = ({ title, description }: AddEventFormValues) => {
 
+        const newValues: AddEventFormValues = {
+            title,
+            description,
+            startDate,
+            endDate
+        }
+        if (handleFormSubmit) {
+            handleFormSubmit(newValues)
+            form.resetFields()
+        }
+    }
 
-export const AddEventModal = ({ isOpen, handleFormSubmit, handleModalClose }: Props) => {
+    const handleStartDateChange = (date: dayjs.Dayjs | null) => {
+        const formatedDate = formatDate(date)
+        setStartDate(date ? formatedDate : '')
+    }
+
+    const handleEndDateChange = (date: dayjs.Dayjs | null) => {
+        const formatedDate = formatDate(date)
+        setEndDate(date ? formatedDate : '')
+    }
+
     return (
         <Modal
             title="Utwórz wydarzenie"
             open={isOpen}
-            onOk={handleFormSubmit}
             onCancel={handleModalClose}
-            cancelText="Anuluj"
-            okText="Dodaj"
+            footer={null}
         >
             <Form
                 name="basic"
                 labelCol={{ span: 6 }}
                 wrapperCol={{ span: 16 }}
                 initialValues={{ remember: true }}
-                // onFinish={onFinish}
-                // onFinishFailed={onFinishFailed}
+                form={form}
+                onFinish={submitForm}
                 autoComplete="off"
             >
                 <Spacer height={24} />
@@ -50,11 +69,16 @@ export const AddEventModal = ({ isOpen, handleFormSubmit, handleModalClose }: Pr
                 <Spacer />
                 <DateContainer >
                     <DatePickerContainer>
-                        <DatePicker placeholder="Data rozpoczęcia" />
+                        <DatePicker placeholder="Data rozpoczęcia" name="startDate" onChange={(date) => handleStartDateChange(date)} />
                     </DatePickerContainer>
-                    <DatePicker placeholder="Data zakończenia" />
+                    <DatePicker placeholder="Data zakończenia" name="endDate" onChange={(date) => handleEndDateChange(date)} />
                 </DateContainer>
                 <Spacer />
+                <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+                    <Button type="primary" htmlType="submit">
+                        Utwórz
+                    </Button>
+                </Form.Item>
             </Form>
         </Modal>
     )
