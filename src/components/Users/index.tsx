@@ -4,22 +4,25 @@ import { Modal, Typography } from 'antd';
 import axios from '@/api/axios';
 import { User, UsersListResponse } from '@/api/types/user/usersList';
 import { CreateUserRequest, CreateUserResponse } from '@/api/types/user/createUser';
-import { CREATE_USER, DELETE_USER, GET_USERS } from '@/api/endpoints/user';
+import { CREATE_USER, DELETE_USER, EDIT_USER, GET_USERS } from '@/api/endpoints/user';
+import { DeleteUserResponse } from '@/api/types/user/deleteUser';
+import { EditUserRequest } from '@/api/types/user/editUser/editUserRequest';
+import { EditUserResponse } from '@/api/types/user/editUser/editUserResponse';
 import { AddItemButton, ContentLoader, PageHeader, Spacer } from '../common';
 import { Container, LoaderContainer } from './Users.styles';
-import { generateColums } from './mocks/usersMock';
 import { AddUserModal } from './components/AddUserModal';
-import { transformUsersList } from './helpers';
-import { CreateUserFormValues } from './types';
-import { DeleteUserResponse } from '@/api/types/user/deleteUser';
+import { returnelectedUserData, transformUsersList } from './helpers';
+import { CreateUserFormValues, EditUserFormValues } from './types';
 import { DeleteuserModal } from './components/DeleteUserModal';
-
+import { generateTableCloumns } from './helpers/generateTableColumns';
+import { EditUserModal } from './components/EditUserModal';
 
 const { Title } = Typography;
 
 const Users = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteUserModalOpen, setIsDeleteUserModalOpen] = useState(false)
+  const [isEditUsermodalOpen, setIsEditUserModalOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState<number>()
   const [users, setUsers] = useState<User[]>()
   const [loading, setLoading] = useState(false)
@@ -60,9 +63,18 @@ const Users = () => {
     setIsDeleteUserModalOpen(false)
   }
 
-  const createUser = async (values: CreateUserFormValues) => {
+  const handleEditUserModalOpen = (userId: number) => {
+    setSelectedUser(userId)
+    setIsEditUserModalOpen(true)
+  }
+
+  const handleEditUserModalClose = () => {
+    setSelectedUser(undefined)
+    setIsEditUserModalOpen(false)
+  }
+
+  const createUser = async ({ name, surname, email, password }: CreateUserFormValues) => {
     try {
-      const { name, surname, email, password } = values
       const body: CreateUserRequest = {
         Name: name,
         Surname: surname,
@@ -93,9 +105,32 @@ const Users = () => {
     }
   }
 
+  const editUser = async ({ name, surname, about, city, country, university }: EditUserFormValues) => {
+    try {
+      const body: EditUserRequest = {
+        Name: name,
+        Surname: surname,
+        AboutMe: about,
+        City: city,
+        Country: country,
+        University: university
+      }
+      await axios.post<EditUserResponse>(`${EDIT_USER}/${selectedUser}`, body)
+      fetchUsers()
+      handleEditUserModalClose()
+    } catch (e: unknown) {
+      Modal.error({
+        title: 'Błąd',
+        content: 'Nie udało się edytować użytkownika'
+      })
+    }
+  }
+
   const transformedUsersList = transformUsersList(users)
 
-  const columns = generateColums(handleDeleteUserModalOpen)
+  const columns = generateTableCloumns(handleDeleteUserModalOpen, handleEditUserModalOpen)
+
+  const selectedUserData = returnelectedUserData(users, selectedUser)
 
   const renderedContent = loading ? (
     <LoaderContainer>
@@ -115,6 +150,7 @@ const Users = () => {
       {renderedContent}
       <AddUserModal isOpen={isModalOpen} handleModalClose={handleModalClose} handleFormSubmit={createUser} />
       <DeleteuserModal isOpen={isDeleteUserModalOpen} handleModalClose={handleDeleteUserModalClose} handleModalSubmit={deleteUser} />
+      <EditUserModal isOpen={isEditUsermodalOpen} handleModalClose={handleEditUserModalClose} handleFormSubmit={editUser} selectedUser={selectedUserData} />
     </Container>
   );
 };

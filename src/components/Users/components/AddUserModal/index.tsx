@@ -1,36 +1,13 @@
 import { Modal, Form, Input, Button } from 'antd';
-import { Rule } from 'antd/es/form';
 import { Spacer } from '@/components/common';
-import { EMAIL_REGEX } from '@/consts';
 import { CreateUserFormValues } from '../../types';
+import { emailRules, lastNameRules, nameRules, passwordRules } from '../../schema';
 
 interface Props {
   isOpen: boolean;
   handleFormSubmit?: (values: CreateUserFormValues) => void;
   handleModalClose?: () => void;
 }
-
-const nameRules: Rule[] = [
-  { required: true, message: 'Imię jest wymagane' },
-  { max: 60, message: 'Imię jest zbyt długie' }
-];
-
-const lastNameRules: Rule[] = [
-  { required: true, message: 'Nazwisko jest wymagane' },
-  { max: 60, message: 'Nazwisko jest zbyt długie' }
-];
-
-const emailRules: Rule[] = [
-  { required: true, message: 'Adres email jest wymagany' },
-  { max: 60, message: 'Adres email jest zbyt długi' },
-  { pattern: EMAIL_REGEX, message: 'Niepoprawny adres email' }
-];
-
-const passwordRules: Rule[] = [
-  { required: true, message: 'hasło jest wymagane' },
-  { max: 20, message: 'Hasło jest zbyt długie, max 20 znaków' },
-  { min: 8, message: 'Hasło jest zbyt krótkie, min 8 znaków' }
-];
 
 
 export const AddUserModal = ({ isOpen, handleFormSubmit, handleModalClose }: Props) => {
@@ -78,7 +55,7 @@ export const AddUserModal = ({ isOpen, handleFormSubmit, handleModalClose }: Pro
         <Spacer />
         <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
           <Button type="primary" htmlType="submit">
-            Zaloguj się
+            Utwórz
           </Button>
         </Form.Item>
       </Form>
