@@ -6,6 +6,10 @@ import axios from '@/api/axios';
 import { EDIT_USER, USER_DETAILS } from '@/api/endpoints/user';
 import { UserDetailsResponse } from '@/api/types/user/userDetails';
 import { User } from '@/api/types/user/usersList';
+import { CHANGE_PASSWORD } from '@/api/endpoints/user/changePassword';
+import { ChangePasswordRequest, ChangePasswordResponse } from '@/api/types/user/changePassword';
+import { EditUserRequest } from '@/api/types/user/editUser/editUserRequest';
+import { EditUserResponse } from '@/api/types/user/editUser/editUserResponse';
 import { ROUTING_PATHS } from '@/enums';
 import { ContentLoader, PageHeader, Spacer } from "../common";
 import {
@@ -24,11 +28,8 @@ import {
 } from "./Profile.styles";
 import { EditUserModal } from './components/EditUserModal';
 import { ChangePasswordFormValues, EditUserDetailsFormValues } from './types';
-import { EditUserRequest } from '@/api/types/user/editUser/editUserRequest';
-import { EditUserResponse } from '@/api/types/user/editUser/editUserResponse';
 import { ChangePasswordModal } from './components/ChangePasswordModal';
-import { CHANGE_PASSWORD } from '@/api/endpoints/user/changePassword';
-import { ChangePasswordRequest, ChangePasswordResponse } from '@/api/types/user/changePassword';
+
 
 const { Title, Text } = Typography
 
@@ -165,7 +166,7 @@ const Profile = () => {
       <ActionContainer>
         <Button type='primary' onClick={handleEditUserDetailsModalOpen}>Edytuj dnane</Button>
         <ButtonWrapper>
-          <Button type='primary' onClick={handleChangePassordModalOpen}>Zmień hasło</Button>
+          <Button onClick={handleChangePassordModalOpen}>Zmień hasło</Button>
         </ButtonWrapper>
       </ActionContainer>
     </ContentContainer>
