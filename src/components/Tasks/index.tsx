@@ -2,20 +2,23 @@ import { useState, useEffect } from 'react';
 import { Modal, Typography } from 'antd';
 import Table from 'antd/es/table';
 import axios from '@/api/axios';
-import { CREATE_TASK, TASKS_LIST } from '@/api/endpoints/tasks';
+import { CREATE_TASK, DELETE_TASK, TASKS_LIST } from '@/api/endpoints/tasks';
 import { Task, TasksListResponse } from '@/api/types/tasks/tasksList';
 import { CreateTaskRequest, CreateTaskResponse } from '@/api/types/tasks/createTask';
+import { DeleteTaskResponse } from '@/api/types/tasks/deleteTask';
 import { AddItemButton, ContentLoader, PageHeader, Spacer } from '../common';
 import { Container, LoaderContainer } from './Task.styles';
-import { columns } from './mocks/tasksMock';
 import { AddTaskModal } from './components/AddTaskModal';
-import { transformTasksList } from './helpers';
+import { generateTableColumns, transformTasksList } from './helpers';
 import { TaskFormValues } from './types';
+import { DeleteTaskModal } from './components/DeleteTaskModal';
 
 const { Title } = Typography;
 
 const Tasks = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteTaskModalOpen, setIsDeleteTaskModalOpen] = useState(false)
+  const [selectedTask, setSelectedTask] = useState<number>()
   const [loading, setLoading] = useState(false)
   const [tasks, setTasks] = useState<Task[]>()
 
@@ -56,14 +59,44 @@ const Tasks = () => {
     } finally {
       setLoading(false)
     }
+  }
 
+  const deleteTask = async () => {
+    if (!selectedTask) {
+      return
+    }
+    setLoading(true)
+    try {
+      await axios.get<DeleteTaskResponse>(`${DELETE_TASK}/${selectedTask}`)
+      fetchTasks()
+      handleDeleteTaskModalClose()
+    } catch (e: unknown) {
+      Modal.error({
+        title: 'Błąd',
+        content: 'Nie udało się usunąć zadania'
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleModalOpen = () => setIsModalOpen(true);
 
   const handleModalClose = () => setIsModalOpen(false);
 
+  const handleDeleteTaskModalOpen = (taskId: number) => {
+    setSelectedTask(taskId)
+    setIsDeleteTaskModalOpen(true)
+  }
+
+  const handleDeleteTaskModalClose = () => {
+    setSelectedTask(undefined)
+    setIsDeleteTaskModalOpen(false)
+  }
+
   const transformedTasksList = transformTasksList(tasks)
+
+  const columns = generateTableColumns(handleDeleteTaskModalOpen)
 
   const renderedContent = loading ? (
     <LoaderContainer>
@@ -81,6 +114,7 @@ const Tasks = () => {
       <Spacer height={36} />
       {renderedContent}
       <AddTaskModal isOpen={isModalOpen} handleModalClose={handleModalClose} handleFormSubmit={createTask} />
+      <DeleteTaskModal isOpen={isDeleteTaskModalOpen} handleModalClose={handleDeleteTaskModalClose} handleModalSubmit={deleteTask} />
     </Container>
   );
 };
