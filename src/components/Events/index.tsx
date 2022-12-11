@@ -26,8 +26,8 @@ const Events = () => {
   const [events, setEvents] = useState<Event[]>()
 
   const fetchEvents = async () => {
+    setLoading(true)
     try {
-      setLoading(true)
       const { data } = await axios.get<EventsListresponse>(GET_EVENTS)
       setEvents(data)
     } catch (e: unknown) {

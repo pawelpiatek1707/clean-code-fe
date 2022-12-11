@@ -1,0 +1,1 @@
+export const TASKS_LIST = 'tasks/list'

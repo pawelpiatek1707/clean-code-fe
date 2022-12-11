@@ -28,8 +28,8 @@ const Users = () => {
   const [loading, setLoading] = useState(false)
 
   const fetchUsers = async () => {
+    setLoading(true)
     try {
-      setLoading(true)
       const { data } = await axios.get<UsersListResponse>(GET_USERS)
       setUsers(data)
     } catch (e: unknown) {
@@ -94,7 +94,7 @@ const Users = () => {
   }
 
   const deleteUser = async () => {
-    if(!selectedUser) {
+    if (!selectedUser) {
       return
     }
     try {
@@ -113,7 +113,7 @@ const Users = () => {
   }
 
   const editUser = async ({ name, surname, about, city, country, university }: EditUserFormValues) => {
-    if(!selectedUser) {
+    if (!selectedUser) {
       return
     }
     try {
