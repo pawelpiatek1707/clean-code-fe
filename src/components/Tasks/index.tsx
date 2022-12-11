@@ -2,22 +2,25 @@ import { useState, useEffect } from 'react';
 import { Modal, Typography } from 'antd';
 import Table from 'antd/es/table';
 import axios from '@/api/axios';
-import { CREATE_TASK, DELETE_TASK, TASKS_LIST } from '@/api/endpoints/tasks';
+import { CREATE_TASK, DELETE_TASK, EDIT_TASK, TASKS_LIST } from '@/api/endpoints/tasks';
 import { Task, TasksListResponse } from '@/api/types/tasks/tasksList';
 import { CreateTaskRequest, CreateTaskResponse } from '@/api/types/tasks/createTask';
 import { DeleteTaskResponse } from '@/api/types/tasks/deleteTask';
 import { AddItemButton, ContentLoader, PageHeader, Spacer } from '../common';
 import { Container, LoaderContainer } from './Task.styles';
 import { AddTaskModal } from './components/AddTaskModal';
-import { generateTableColumns, transformTasksList } from './helpers';
+import { generateTableColumns, returnSelectedTaskData, transformTasksList } from './helpers';
 import { TaskFormValues } from './types';
 import { DeleteTaskModal } from './components/DeleteTaskModal';
+import { EditTaskRequest, EditTaskResponse } from '@/api/types/tasks/editTask';
+import { EditTaskModal } from './components/EditTaskModal';
 
 const { Title } = Typography;
 
 const Tasks = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteTaskModalOpen, setIsDeleteTaskModalOpen] = useState(false)
+  const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false)
   const [selectedTask, setSelectedTask] = useState<number>()
   const [loading, setLoading] = useState(false)
   const [tasks, setTasks] = useState<Task[]>()
@@ -80,6 +83,29 @@ const Tasks = () => {
     }
   }
 
+  const editTask = async ({ title, description }: TaskFormValues) => {
+    if (!selectedTask) {
+      return
+    }
+    setLoading(true)
+    try {
+      const body: EditTaskRequest = {
+        Title: title,
+        Description: description
+      }
+      await axios.post<EditTaskResponse>(`${EDIT_TASK}/${selectedTask}`, body)
+      fetchTasks()
+      handleEditTaskModalClose()
+    } catch (e: unknown) {
+      Modal.error({
+        title: 'Błąd',
+        content: 'Nie udało się edytować zadania'
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleModalOpen = () => setIsModalOpen(true);
 
   const handleModalClose = () => setIsModalOpen(false);
@@ -94,9 +120,21 @@ const Tasks = () => {
     setIsDeleteTaskModalOpen(false)
   }
 
+  const handleEditTaskModalOpen = (taskId: number) => {
+    setSelectedTask(taskId)
+    setIsEditTaskModalOpen(true)
+  }
+
+  const handleEditTaskModalClose = () => {
+    setSelectedTask(undefined)
+    setIsEditTaskModalOpen(false)
+  }
+
   const transformedTasksList = transformTasksList(tasks)
 
-  const columns = generateTableColumns(handleDeleteTaskModalOpen)
+  const columns = generateTableColumns(handleDeleteTaskModalOpen, handleEditTaskModalOpen)
+
+  const selectedTaskData = returnSelectedTaskData(tasks, selectedTask)
 
   const renderedContent = loading ? (
     <LoaderContainer>
@@ -115,6 +153,7 @@ const Tasks = () => {
       {renderedContent}
       <AddTaskModal isOpen={isModalOpen} handleModalClose={handleModalClose} handleFormSubmit={createTask} />
       <DeleteTaskModal isOpen={isDeleteTaskModalOpen} handleModalClose={handleDeleteTaskModalClose} handleModalSubmit={deleteTask} />
+      <EditTaskModal isOpen={isEditTaskModalOpen} handleModalClose={handleEditTaskModalClose} selectedTask={selectedTaskData} handleFormSubmit={editTask} />
     </Container>
   );
 };

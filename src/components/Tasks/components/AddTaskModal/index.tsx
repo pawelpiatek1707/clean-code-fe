@@ -1,23 +1,13 @@
 import { Button, Form, Input, Modal } from 'antd';
-import { Rule } from 'antd/es/form';
 import { Spacer } from '@/components/common';
 import { TaskFormValues } from '../../types';
+import { descriptionRules, titleRules } from '../../schema';
 
 interface Props {
   isOpen: boolean;
   handleFormSubmit?: (values: TaskFormValues) => void;
   handleModalClose?: () => void;
 }
-
-const titleRules: Rule[] = [
-  { required: true, message: 'Tytuł jest wymagane' },
-  { max: 60, message: 'Tytuł jest zbyt długie' }
-];
-
-const descriptionRules: Rule[] = [
-  { required: true, message: 'Opis jest wymagane' },
-  { max: 60, message: 'Opis jest zbyt długie' }
-];
 
 export const AddTaskModal = ({ isOpen, handleFormSubmit, handleModalClose }: Props) => {
   const [form] = Form.useForm()
