@@ -2,18 +2,20 @@ import { useState, useEffect } from 'react';
 import { Modal, Typography } from 'antd';
 import Table from 'antd/es/table';
 import axios from '@/api/axios';
-import { CREATE_TASK, DELETE_TASK, EDIT_TASK, TASKS_LIST } from '@/api/endpoints/tasks';
+import { COMPLETE_TASK, CREATE_TASK, DELETE_TASK, EDIT_TASK, TASKS_LIST } from '@/api/endpoints/tasks';
 import { Task, TasksListResponse } from '@/api/types/tasks/tasksList';
 import { CreateTaskRequest, CreateTaskResponse } from '@/api/types/tasks/createTask';
 import { DeleteTaskResponse } from '@/api/types/tasks/deleteTask';
+import { CompleteTaskResponse } from '@/api/types/tasks/completeTask';
+import { EditTaskRequest, EditTaskResponse } from '@/api/types/tasks/editTask';
 import { AddItemButton, ContentLoader, PageHeader, Spacer } from '../common';
 import { Container, LoaderContainer } from './Task.styles';
 import { AddTaskModal } from './components/AddTaskModal';
 import { generateTableColumns, returnSelectedTaskData, transformTasksList } from './helpers';
 import { TaskFormValues } from './types';
 import { DeleteTaskModal } from './components/DeleteTaskModal';
-import { EditTaskRequest, EditTaskResponse } from '@/api/types/tasks/editTask';
 import { EditTaskModal } from './components/EditTaskModal';
+import { TASK_STATUS_NUMBER } from './enums';
 
 const { Title } = Typography;
 
@@ -106,6 +108,25 @@ const Tasks = () => {
     }
   }
 
+  const completeTask = async (taskId: number) => {
+    const taskToComplete = returnSelectedTaskData(tasks, taskId)
+    if (!taskToComplete || taskToComplete.isCheck === TASK_STATUS_NUMBER.COMPLETED) {
+      return
+    }
+    setLoading(true)
+    try {
+      await axios.get<CompleteTaskResponse>(`${COMPLETE_TASK}/${taskId}`)
+      fetchTasks()
+    } catch (e: unknown) {
+      Modal.error({
+        title: 'Błąd',
+        content: 'Nie udało się zakończyć zadania'
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleModalOpen = () => setIsModalOpen(true);
 
   const handleModalClose = () => setIsModalOpen(false);
@@ -132,7 +153,7 @@ const Tasks = () => {
 
   const transformedTasksList = transformTasksList(tasks)
 
-  const columns = generateTableColumns(handleDeleteTaskModalOpen, handleEditTaskModalOpen)
+  const columns = generateTableColumns(handleDeleteTaskModalOpen, handleEditTaskModalOpen, completeTask)
 
   const selectedTaskData = returnSelectedTaskData(tasks, selectedTask)
 

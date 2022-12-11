@@ -1,0 +1,4 @@
+export enum TASK_STATUS_NUMBER {
+    IN_PROGRESS = 0,
+    COMPLETED = 1
+}

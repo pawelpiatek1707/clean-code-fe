@@ -2,5 +2,5 @@ export interface Task {
     id: number
     title: string
     description: string
-    isChecked: boolean
+    isCheck: number
 }
