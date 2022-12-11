@@ -23,15 +23,19 @@ import {
   UserName
 } from "./Profile.styles";
 import { EditUserModal } from './components/EditUserModal';
-import { EditUserDetailsFormValues } from './types';
+import { ChangePasswordFormValues, EditUserDetailsFormValues } from './types';
 import { EditUserRequest } from '@/api/types/user/editUser/editUserRequest';
 import { EditUserResponse } from '@/api/types/user/editUser/editUserResponse';
+import { ChangePasswordModal } from './components/ChangePasswordModal';
+import { CHANGE_PASSWORD } from '@/api/endpoints/user/changePassword';
+import { ChangePasswordRequest, ChangePasswordResponse } from '@/api/types/user/changePassword';
 
 const { Title, Text } = Typography
 
 const Profile = () => {
   const [loading, setLoading] = useState(false)
   const [isEditUserDetailsModalOpen, setIsEditUserDetailsModalOpen] = useState(false)
+  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false)
   const [userDetails, setUserDetails] = useState<User>()
   const navigate = useNavigate();
 
@@ -89,9 +93,42 @@ const Profile = () => {
     }
   }
 
+  const changePassword = async ({ password, confirmPassword }: ChangePasswordFormValues) => {
+    if (!userDetails) {
+      return
+    }
+    if (password !== confirmPassword) {
+      Modal.error({
+        title: 'Błąd',
+        content: 'Pola muszą być indentyczne'
+      })
+      return
+    }
+    setLoading(true)
+    try {
+      const body: ChangePasswordRequest = {
+        Password: password
+      }
+      await axios.post<ChangePasswordResponse>(`${CHANGE_PASSWORD}/${userDetails.id}`, body)
+      await fetchProfileData()
+      handleChangePasswordModalClose()
+    } catch (e: unknown) {
+      Modal.error({
+        title: 'Błąd',
+        content: 'Nie udało się zmienic hasła'
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleEditUserDetailsModalOpen = () => setIsEditUserDetailsModalOpen(true)
 
   const handleEditUserDetailsModalClose = () => setIsEditUserDetailsModalOpen(false)
+
+  const handleChangePassordModalOpen = () => setIsChangePasswordModalOpen(true)
+
+  const handleChangePasswordModalClose = () => setIsChangePasswordModalOpen(false)
 
   const Content = (
     <ContentContainer>
@@ -128,7 +165,7 @@ const Profile = () => {
       <ActionContainer>
         <Button type='primary' onClick={handleEditUserDetailsModalOpen}>Edytuj dnane</Button>
         <ButtonWrapper>
-          <Button type='primary'>Zmień hasło</Button>
+          <Button type='primary' onClick={handleChangePassordModalOpen}>Zmień hasło</Button>
         </ButtonWrapper>
       </ActionContainer>
     </ContentContainer>
@@ -147,6 +184,11 @@ const Profile = () => {
         handleModalClose={handleEditUserDetailsModalClose}
         selectedUser={userDetails}
         handleFormSubmit={editUserDetails}
+      />
+      <ChangePasswordModal
+        isOpen={isChangePasswordModalOpen}
+        handleModalClose={handleChangePasswordModalClose}
+        handleFormSubmit={changePassword}
       />
     </Container>
   )
