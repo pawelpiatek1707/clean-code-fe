@@ -1,4 +1,4 @@
-import { Task } from "@/api/types/tasks";
+import { Task } from "@/api/types/tasks/tasksList";
 import { TableTask } from "../types";
 
 export const transformTasksList = (tasksList?: Task[]) => {

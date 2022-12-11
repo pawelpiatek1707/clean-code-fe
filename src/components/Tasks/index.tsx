@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Modal, Typography } from 'antd';
 import Table from 'antd/es/table';
+import axios from '@/api/axios';
+import { CREATE_TASK, TASKS_LIST } from '@/api/endpoints/tasks';
+import { Task, TasksListResponse } from '@/api/types/tasks/tasksList';
+import { CreateTaskRequest, CreateTaskResponse } from '@/api/types/tasks/createTask';
 import { AddItemButton, ContentLoader, PageHeader, Spacer } from '../common';
 import { Container, LoaderContainer } from './Task.styles';
 import { columns } from './mocks/tasksMock';
 import { AddTaskModal } from './components/AddTaskModal';
-import axios from '@/api/axios';
-import { TASKS_LIST } from '@/api/endpoints/tasks';
-import { Task, TasksListResponse } from '@/api/types/tasks';
 import { transformTasksList } from './helpers';
+import { TaskFormValues } from './types';
 
 const { Title } = Typography;
 
@@ -36,6 +38,27 @@ const Tasks = () => {
     fetchTasks()
   }, [])
 
+  const createTask = async ({ title, description }: TaskFormValues) => {
+    setLoading(true)
+    try {
+      const body: CreateTaskRequest = {
+        Title: title,
+        Description: description
+      }
+      await axios.post<CreateTaskResponse>(CREATE_TASK, body)
+      fetchTasks()
+      handleModalClose()
+    } catch (e: unknown) {
+      Modal.error({
+        title: 'Błąd',
+        content: 'Nie udało się stworzyć nowego zadania'
+      })
+    } finally {
+      setLoading(false)
+    }
+
+  }
+
   const handleModalOpen = () => setIsModalOpen(true);
 
   const handleModalClose = () => setIsModalOpen(false);
@@ -57,7 +80,7 @@ const Tasks = () => {
       <AddItemButton text="Utwórz zadanie" onClick={handleModalOpen} />
       <Spacer height={36} />
       {renderedContent}
-      <AddTaskModal isOpen={isModalOpen} handleModalClose={handleModalClose} />
+      <AddTaskModal isOpen={isModalOpen} handleModalClose={handleModalClose} handleFormSubmit={createTask} />
     </Container>
   );
 };
