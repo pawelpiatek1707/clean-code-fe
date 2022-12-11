@@ -1,15 +1,9 @@
 import { Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { DeleteButton, EditButton } from '@/components/common';
+import { TableTask } from '../types';
 
-interface DataType {
-  key: React.Key;
-  title: string;
-  description: string;
-  isChecked: string;
-}
-
-export const columns: ColumnsType<DataType> = [
+export const columns: ColumnsType<TableTask> = [
   { title: 'Tytuł', dataIndex: 'title' },
   { title: 'Opis', dataIndex: 'description' },
   { title: 'Status', dataIndex: 'isChecked' },
@@ -25,7 +19,7 @@ export const columns: ColumnsType<DataType> = [
   }
 ];
 
-export const data: DataType[] = [
+export const data: TableTask[] = [
   {
     key: '1',
     title: 'Zadanie 1',

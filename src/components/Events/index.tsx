@@ -26,8 +26,8 @@ const Events = () => {
   const [events, setEvents] = useState<Event[]>()
 
   const fetchEvents = async () => {
+    setLoading(true)
     try {
-      setLoading(true)
       const { data } = await axios.get<EventsListresponse>(GET_EVENTS)
       setEvents(data)
     } catch (e: unknown) {
@@ -45,8 +45,8 @@ const Events = () => {
   }, [])
 
   const createEvent = async ({ title, description, startDate, endDate }: EventFormValues) => {
+    setLoading(true)
     try {
-      setLoading(true)
       const body: CreateEventRequest = {
         Title: title,
         Description: description,
@@ -70,8 +70,8 @@ const Events = () => {
     if (!selectedEvent) {
       return
     }
+    setLoading(true)
     try {
-      setLoading(true)
       await axios.get<DeleteEventResponse>(`${DELETE_EVENT}/${selectedEvent}`)
       fetchEvents()
       handleDeleteEventModalClose()
@@ -89,6 +89,7 @@ const Events = () => {
     if (!selectedEvent) {
       return
     }
+    setLoading(true)
     try {
       const body: EditEventRequest = {
         Title: title,
@@ -96,7 +97,6 @@ const Events = () => {
         StartDate: startDate,
         EndDate: endDate
       }
-      setLoading(true)
       await axios.post<EditEventRequest>(`${EDIT_EVENT}/${selectedEvent}`, body)
       fetchEvents()
       handleEditEventModalClose()

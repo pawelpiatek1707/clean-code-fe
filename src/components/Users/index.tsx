@@ -28,8 +28,8 @@ const Users = () => {
   const [loading, setLoading] = useState(false)
 
   const fetchUsers = async () => {
+    setLoading(true)
     try {
-      setLoading(true)
       const { data } = await axios.get<UsersListResponse>(GET_USERS)
       setUsers(data)
     } catch (e: unknown) {
@@ -72,8 +72,8 @@ const Users = () => {
   }
 
   const createUser = async ({ name, surname, email, password }: CreateUserFormValues) => {
+    setLoading(true)
     try {
-      setLoading(true)
       const body: CreateUserRequest = {
         Name: name,
         Surname: surname,
@@ -94,11 +94,11 @@ const Users = () => {
   }
 
   const deleteUser = async () => {
-    if(!selectedUser) {
+    if (!selectedUser) {
       return
     }
+    setLoading(true)
     try {
-      setLoading(true)
       await axios.get<DeleteUserResponse>(`${DELETE_USER}/${selectedUser}`)
       fetchUsers()
       handleDeleteUserModalClose()
@@ -113,9 +113,10 @@ const Users = () => {
   }
 
   const editUser = async ({ name, surname, about, city, country, university }: EditUserFormValues) => {
-    if(!selectedUser) {
+    if (!selectedUser) {
       return
     }
+    setLoading(true)
     try {
       const body: EditUserRequest = {
         Name: name,
@@ -133,6 +134,8 @@ const Users = () => {
         title: 'Błąd',
         content: 'Nie udało się edytować użytkownika'
       })
+    } finally {
+      setLoading(false)
     }
   }
 

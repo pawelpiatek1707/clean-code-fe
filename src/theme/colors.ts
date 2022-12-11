@@ -7,5 +7,6 @@ export const colors = {
   grayPrimary: '#f5f5f5',
   graySecondary: '#D2D2D2',
   grayTertiary: '#bfbfbf',
-  redPrimary: '#f5222d'
+  redPrimary: '#f5222d',
+  greenPrimary: '#6e9c4b'
 };

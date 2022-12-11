@@ -1,40 +1,36 @@
-import { Form, Input, Modal } from 'antd';
-import { Rule } from 'antd/es/form';
+import { Button, Form, Input, Modal } from 'antd';
 import { Spacer } from '@/components/common';
+import { TaskFormValues } from '../../types';
+import { descriptionRules, titleRules } from '../../schema';
 
 interface Props {
   isOpen: boolean;
-  handleFormSubmit?: () => void;
+  handleFormSubmit?: (values: TaskFormValues) => void;
   handleModalClose?: () => void;
 }
 
-const titleRules: Rule[] = [
-  { required: true, message: 'Tytuł jest wymagane' },
-  { max: 60, message: 'Tytuł jest zbyt długie' }
-];
-
-const descriptionRules: Rule[] = [
-  { required: true, message: 'Opis jest wymagane' },
-  { max: 60, message: 'Opis jest zbyt długie' }
-];
-
 export const AddTaskModal = ({ isOpen, handleFormSubmit, handleModalClose }: Props) => {
+  const [form] = Form.useForm()
+
+  const submitForm = (values: TaskFormValues) => {
+    if (handleFormSubmit) {
+      handleFormSubmit(values)
+      form.resetFields()
+    }
+  }
   return (
     <Modal
-      title="Utwórz wydarzenie"
+      title="Utwórz zadanie"
       open={isOpen}
-      onOk={handleFormSubmit}
       onCancel={handleModalClose}
-      cancelText="Anuluj"
-      okText="Dodaj"
+      footer={null}
     >
       <Form
         name="basic"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
         initialValues={{ remember: true }}
-        // onFinish={onFinish}
-        // onFinishFailed={onFinishFailed}
+        onFinish={submitForm}
         autoComplete="off"
       >
         <Spacer height={24} />
@@ -46,6 +42,11 @@ export const AddTaskModal = ({ isOpen, handleFormSubmit, handleModalClose }: Pro
           <Input />
         </Form.Item>
         <Spacer />
+        <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+          <Button type="primary" htmlType="submit">
+            Utwórz
+          </Button>
+        </Form.Item>
       </Form>
     </Modal>
   );
