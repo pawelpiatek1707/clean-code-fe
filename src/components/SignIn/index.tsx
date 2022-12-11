@@ -1,31 +1,19 @@
 import { useState } from 'react'
 import { Button, Form, Input, Modal } from 'antd';
-import { Rule } from 'antd/es/form';
 import { useNavigate } from 'react-router-dom';
 import { ROUTING_PATHS } from '@/enums';
-import { EMAIL_REGEX } from '@/consts';
 import axios from '@/api/axios';
 import { SIGN_IN_ENDPOINT } from '@/api/endpoints/authentication';
 import { SignInResponse, SignInReuest } from '@/api/types/authentication/signIn';
-import { setToken } from '@/api/helpers';
+import { setToken, setUserId } from '@/api/helpers';
 import { Spacer } from '../common';
 import { Container, ContainerLeft, ContainerRight, FormContainer, Header } from './SignIn.styles';
+import { emailInputRules, passwordInputRules } from './schema';
 
 interface SignInFormValues {
   email: string
   password: string
 }
-
-const emailInputRules: Rule[] = [
-  { required: true, message: 'Adres email jest wymagany' },
-  { pattern: EMAIL_REGEX, message: 'Niepoprawny adres email' },
-  { max: 60, message: 'Zbyt długi adres email' }
-];
-const passwordInputRules: Rule[] = [
-  { required: true, message: 'Hasło jest wymagane' },
-  { min: 8, message: 'Minimum 8 znaków' },
-  { max: 40, message: 'Hasło zbyt długie, maksimum 40 znaków' }
-];
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -39,7 +27,8 @@ const SignIn = () => {
         Login: email,
         Password: password
       }
-      const { data: { token } } = await axios.post<SignInResponse>(SIGN_IN_ENDPOINT, body)
+      const { data: { token, userId } } = await axios.post<SignInResponse>(SIGN_IN_ENDPOINT, body)
+      setUserId(userId)
       setToken(token)
       form.resetFields()
       navigate(`/${ROUTING_PATHS.USERS}`);

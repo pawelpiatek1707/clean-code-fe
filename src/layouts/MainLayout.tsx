@@ -1,9 +1,9 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Layout, Menu, MenuProps } from 'antd';
-import { AlertOutlined, CalendarOutlined, ImportOutlined, UserOutlined } from '@ant-design/icons';
+import { AlertOutlined, CalendarOutlined, ImportOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
 import { MENU_ITEM_KEYS, ROUTING_PATHS } from '@/enums';
 import { useMenuKey } from '@/hooks';
-import { removeToken } from '@/api/helpers';
+import { removeToken, removeUserId } from '@/api/helpers';
 import { BottomContainer, ContentContainer, LayoutContainer, Logo, LogoContainer, LogoText, SideBar, SignOutButton } from './MainLayout.styles';
 
 const { Content } = Layout;
@@ -14,6 +14,7 @@ const MainLayout = () => {
 
   const handleSignOut = () => {
     removeToken()
+    removeUserId()
     navigate(`/${ROUTING_PATHS.SIGN_IN}`);
   }
 
@@ -35,6 +36,12 @@ const MainLayout = () => {
       label: 'Zadania',
       icon: <CalendarOutlined />,
       onClick: () => navigate(`/${ROUTING_PATHS.TASKS}`)
+    },
+    {
+      key: MENU_ITEM_KEYS.PROFILE,
+      label: 'Profil',
+      icon: <SmileOutlined />,
+      onClick: () => navigate(`/${ROUTING_PATHS.PROFILE}`)
     }
   ];
   return (

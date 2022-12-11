@@ -11,6 +11,7 @@ const Tasks = SuspenseComponent(lazy(() => import('../components/Tasks')));
 const Events = SuspenseComponent(lazy(() => import('../components/Events')));
 const Error = SuspenseComponent(lazy(() => import('../components/Error')));
 const Users = SuspenseComponent(lazy(() => import('../components/Users')));
+const Profile = SuspenseComponent(lazy(() => import('../components/Profile')))
 
 export const useRouter = () => {
   const appRouter = useRoutes([
@@ -44,6 +45,10 @@ export const useRouter = () => {
         {
           path: ROUTING_PATHS.USERS,
           element: Users
+        },
+        {
+          path: ROUTING_PATHS.PROFILE,
+          element: Profile
         }
       ]
     },

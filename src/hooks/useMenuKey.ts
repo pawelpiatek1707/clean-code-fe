@@ -18,6 +18,10 @@ export const useMenuKey = () => {
       menuKey = MENU_ITEM_KEYS.TASKS;
       break;
     }
+    case `/${ROUTING_PATHS.PROFILE}`: {
+      menuKey = MENU_ITEM_KEYS.PROFILE;
+      break;
+    }
     default: {
       menuKey = MENU_ITEM_KEYS.USERS;
       break;
