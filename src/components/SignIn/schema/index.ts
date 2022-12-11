@@ -1,0 +1,1 @@
+export {emailInputRules, passwordInputRules} from './signInSchema'
