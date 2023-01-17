@@ -72,7 +72,7 @@ const Events = () => {
     }
     setLoading(true)
     try {
-      await axios.get<DeleteEventResponse>(`${DELETE_EVENT}/${selectedEvent}`)
+      await axios.delete<DeleteEventResponse>(`${DELETE_EVENT}/${selectedEvent}`)
       fetchEvents()
       handleDeleteEventModalClose()
     } catch (e: unknown) {
@@ -97,7 +97,7 @@ const Events = () => {
         StartDate: startDate,
         EndDate: endDate
       }
-      await axios.post<EditEventRequest>(`${EDIT_EVENT}/${selectedEvent}`, body)
+      await axios.patch<EditEventRequest>(`${EDIT_EVENT}/${selectedEvent}`, body)
       fetchEvents()
       handleEditEventModalClose()
     } catch (e: unknown) {

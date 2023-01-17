@@ -81,7 +81,7 @@ const Profile = () => {
         Country: country,
         University: university
       }
-      await axios.post<EditUserResponse>(`${EDIT_USER}/${userDetails.id}`, body)
+      await axios.patch<EditUserResponse>(`${EDIT_USER}/${userDetails.id}`, body)
       await fetchProfileData()
       handleEditUserDetailsModalClose()
     } catch (e: unknown) {
@@ -110,7 +110,7 @@ const Profile = () => {
       const body: ChangePasswordRequest = {
         Password: password
       }
-      await axios.post<ChangePasswordResponse>(`${CHANGE_PASSWORD}/${userDetails.id}`, body)
+      await axios.patch<ChangePasswordResponse>(`${CHANGE_PASSWORD}/${userDetails.id}`, body)
       await fetchProfileData()
       handleChangePasswordModalClose()
     } catch (e: unknown) {
