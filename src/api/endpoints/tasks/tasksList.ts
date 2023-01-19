@@ -1,1 +1,1 @@
-export const TASKS_LIST = 'tasks/list'
+export const TASKS_LIST = 'task/list'

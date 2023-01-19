@@ -32,6 +32,7 @@ export const AddTaskModal = ({ isOpen, handleFormSubmit, handleModalClose }: Pro
         initialValues={{ remember: true }}
         onFinish={submitForm}
         autoComplete="off"
+        form={form}
       >
         <Spacer height={24} />
         <Form.Item label="Tytuł" name="title" rules={titleRules}>

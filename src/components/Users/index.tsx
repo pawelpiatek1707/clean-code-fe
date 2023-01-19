@@ -99,7 +99,7 @@ const Users = () => {
     }
     setLoading(true)
     try {
-      await axios.get<DeleteUserResponse>(`${DELETE_USER}/${selectedUser}`)
+      await axios.delete<DeleteUserResponse>(`${DELETE_USER}/${selectedUser}`)
       fetchUsers()
       handleDeleteUserModalClose()
     } catch (e: unknown) {
@@ -126,7 +126,7 @@ const Users = () => {
         Country: country,
         University: university
       }
-      await axios.post<EditUserResponse>(`${EDIT_USER}/${selectedUser}`, body)
+      await axios.patch<EditUserResponse>(`${EDIT_USER}/${selectedUser}`, body)
       fetchUsers()
       handleEditUserModalClose()
     } catch (e: unknown) {

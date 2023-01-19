@@ -19,29 +19,3 @@ export const columns: ColumnsType<TableTask> = [
   }
 ];
 
-export const data: TableTask[] = [
-  {
-    key: '1',
-    title: 'Zadanie 1',
-    description: 'Opis pierwszego zadania',
-    isChecked: 'W trakcie'
-  },
-  {
-    key: '1',
-    title: 'Zadanie 2',
-    description: 'Opis pierwszego zadania',
-    isChecked: 'Zakończone'
-  },
-  {
-    key: '1',
-    title: 'Zadanie 3',
-    description: 'Opis pierwszego zadania',
-    isChecked: 'Zakończone'
-  },
-  {
-    key: '1',
-    title: 'Zadanie 4',
-    description: 'Opis pierwszego zadania',
-    isChecked: 'W trakcie'
-  }
-];
