@@ -1,12 +1,13 @@
 import { Button, DatePicker, Form, Input, Modal } from "antd"
-import dayjs from 'dayjs'
+import type { Dayjs } from 'dayjs';
 import { useState } from 'react'
 import { Spacer } from "@/components/common"
 import { descriptionRules, titleRules } from "../../schema";
 import { EventFormValues } from "../../types";
-import { formatDate } from "../../helpers";
-import { DateContainer, DatePickerContainer } from "./EditEventModal.styles";
+import { DateContainer } from "./EditEventModal.styles";
 import { Event } from "@/api/types/event/eventsList"
+
+const { RangePicker } = DatePicker;
 
 interface Props {
     isOpen: boolean
@@ -17,29 +18,36 @@ interface Props {
 
 export const EditEventModal = ({ isOpen, handleModalClose, handleFormSubmit, selectedEvent }: Props) => {
     const [form] = Form.useForm()
-    const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(dayjs())
-    const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(dayjs())
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
+    const [startDateForm, setStartDateForm] = useState<Dayjs | null>(null)
+    const [endDateForm, setEndDateForm] = useState<Dayjs | null>(null)
 
     const submitForm = ({ title, description }: EventFormValues) => {
         const newValues: EventFormValues = {
             title,
             description,
-            startDate: formatDate(startDate),
-            endDate: formatDate(endDate)
+            startDate: startDate,
+            endDate: endDate
         }
         if (handleFormSubmit) {
             handleFormSubmit(newValues)
             form.resetFields()
+            setStartDateForm(null)
+            setEndDateForm(null)
         }
     }
 
-    const handleStartDateChange = (date: dayjs.Dayjs | null) => {
-        setStartDate(date)
-    }
+    const onRangeChange = (dates: null | (Dayjs | null)[], dateStrings: string[]) => {
+        if (!dates) {
+            return
+        }
+        setStartDateForm(dates[0])
+        setEndDateForm(dates[1])
+        setStartDate(dateStrings[0])
+        setEndDate(dateStrings[1])
 
-    const handleEndDateChange = (date: dayjs.Dayjs | null) => {
-        setEndDate(date)
-    }
+    };
     return (
         <Modal
             title="Edytuj wydarzenie"
@@ -66,10 +74,11 @@ export const EditEventModal = ({ isOpen, handleModalClose, handleFormSubmit, sel
                 </Form.Item>
                 <Spacer />
                 <DateContainer >
-                    <DatePickerContainer>
+                <RangePicker onChange={onRangeChange} allowClear value={[startDateForm, endDateForm]} placeholder={["Data rozpoczęcia", "Data zakończenia"]}/>
+                    {/* <DatePickerContainer>
                         <DatePicker placeholder="Data rozpoczęcia" name="startDate" onChange={(date) => handleStartDateChange(date)} />
                     </DatePickerContainer>
-                    <DatePicker placeholder="Data zakończenia" name="endDate" onChange={(date) => handleEndDateChange(date)} />
+                    <DatePicker placeholder="Data zakończenia" name="endDate" onChange={(date) => handleEndDateChange(date)} /> */}
                 </DateContainer>
                 <Spacer />
                 <Form.Item wrapperCol={{ offset: 4, span: 16 }}>

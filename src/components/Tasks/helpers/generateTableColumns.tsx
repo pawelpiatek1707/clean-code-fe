@@ -3,7 +3,6 @@ import { ColumnsType } from "antd/es/table"
 import { DeleteButton, EditButton } from "@/components/common";
 import { TableTask } from "../types"
 import { CheckButton } from "../components/CheckButton";
-import { TASK_STATUS } from "../enums";
 
 export const generateTableColumns = (onDelete?: (id: number) => void, onEdit?: (id: number) => void, onCheck?: (id: number) => void) => {
   const columns: ColumnsType<TableTask> = [
@@ -15,7 +14,7 @@ export const generateTableColumns = (onDelete?: (id: number) => void, onEdit?: (
       key: 'action',
       render: (_: any, record: TableTask) => {
         const taskId = Number(record.key)
-        const taskCompleted = record.isChecked === TASK_STATUS.COMPLETED
+        const taskCompleted = record.isChecked
         const handleDelete = () => {
           if (onDelete) {
             onDelete(taskId)

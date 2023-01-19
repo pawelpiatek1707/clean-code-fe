@@ -1,11 +1,13 @@
 import { Form, Input, Modal, DatePicker, Button } from "antd";
-import dayjs from 'dayjs'
 import { useState } from 'react'
+import type { Dayjs } from 'dayjs';
 import { Spacer } from "@/components/common";
-import { DateContainer, DatePickerContainer } from "./AddEventModal.styles";
+import { DateContainer } from "./AddEventModal.styles";
 import { descriptionRules, titleRules } from "../../schema";
 import { EventFormValues } from "../../types/EventFormValues";
-import { formatDate } from "../../helpers";
+
+
+const { RangePicker } = DatePicker;
 
 interface Props {
     isOpen: boolean;
@@ -15,6 +17,8 @@ interface Props {
 
 export const AddEventModal = ({ isOpen, handleModalClose, handleFormSubmit }: Props) => {
     const [form] = Form.useForm()
+    const [startDateForm, setStartDateForm] = useState<Dayjs | null>(null)
+    const [endDateForm, setEndDateForm] = useState<Dayjs | null>(null)
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
 
@@ -29,18 +33,21 @@ export const AddEventModal = ({ isOpen, handleModalClose, handleFormSubmit }: Pr
         if (handleFormSubmit) {
             handleFormSubmit(newValues)
             form.resetFields()
+            setStartDateForm(null)
+            setEndDateForm(null)
         }
     }
 
-    const handleStartDateChange = (date: dayjs.Dayjs | null) => {
-        const formatedDate = formatDate(date)
-        setStartDate(date ? formatedDate : '')
-    }
+    const onRangeChange = (dates: null | (Dayjs | null)[], dateStrings: string[]) => {
+        if (!dates) {
+            return
+        }
+        setStartDateForm(dates[0])
+        setEndDateForm(dates[1])
+        setStartDate(dateStrings[0])
+        setEndDate(dateStrings[1])
 
-    const handleEndDateChange = (date: dayjs.Dayjs | null) => {
-        const formatedDate = formatDate(date)
-        setEndDate(date ? formatedDate : '')
-    }
+    };
 
     return (
         <Modal
@@ -68,10 +75,7 @@ export const AddEventModal = ({ isOpen, handleModalClose, handleFormSubmit }: Pr
                 </Form.Item>
                 <Spacer />
                 <DateContainer >
-                    <DatePickerContainer>
-                        <DatePicker placeholder="Data rozpoczęcia" name="startDate" onChange={(date) => handleStartDateChange(date)} />
-                    </DatePickerContainer>
-                    <DatePicker placeholder="Data zakończenia" name="endDate" onChange={(date) => handleEndDateChange(date)} />
+                    <RangePicker onChange={onRangeChange} allowClear value={[startDateForm, endDateForm]} placeholder={["Data rozpoczęcia", "Data zakończenia"]}/>
                 </DateContainer>
                 <Spacer />
                 <Form.Item wrapperCol={{ offset: 4, span: 16 }}>

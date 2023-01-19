@@ -15,7 +15,6 @@ import { generateTableColumns, returnSelectedTaskData, transformTasksList } from
 import { TaskFormValues } from './types';
 import { DeleteTaskModal } from './components/DeleteTaskModal';
 import { EditTaskModal } from './components/EditTaskModal';
-import { TASK_STATUS_NUMBER } from './enums';
 
 const { Title } = Typography;
 
@@ -72,7 +71,7 @@ const Tasks = () => {
     }
     setLoading(true)
     try {
-      await axios.get<DeleteTaskResponse>(`${DELETE_TASK}/${selectedTask}`)
+      await axios.delete<DeleteTaskResponse>(`${DELETE_TASK}/${selectedTask}`)
       fetchTasks()
       handleDeleteTaskModalClose()
     } catch (e: unknown) {
@@ -95,7 +94,7 @@ const Tasks = () => {
         Title: title,
         Description: description
       }
-      await axios.post<EditTaskResponse>(`${EDIT_TASK}/${selectedTask}`, body)
+      await axios.patch<EditTaskResponse>(`${EDIT_TASK}/${selectedTask}`, body)
       fetchTasks()
       handleEditTaskModalClose()
     } catch (e: unknown) {
@@ -110,12 +109,12 @@ const Tasks = () => {
 
   const completeTask = async (taskId: number) => {
     const taskToComplete = returnSelectedTaskData(tasks, taskId)
-    if (!taskToComplete || taskToComplete.isCheck === TASK_STATUS_NUMBER.COMPLETED) {
+    if (!taskToComplete || taskToComplete.isChecked) {
       return
     }
     setLoading(true)
     try {
-      await axios.get<CompleteTaskResponse>(`${COMPLETE_TASK}/${taskId}`)
+      await axios.patch<CompleteTaskResponse>(`${COMPLETE_TASK}/${taskId}`)
       fetchTasks()
     } catch (e: unknown) {
       Modal.error({

@@ -17,9 +17,9 @@ export const EditUserModal = ({ isOpen, handleModalClose, handleFormSubmit, sele
     const submitForm = async (values: EditUserDetailsFormValues) => {
         if (handleFormSubmit) {
             await handleFormSubmit(values)
-            form.resetFields()
         }
     }
+
     return (
         <Modal
             title="Edytuj swoje dane"
@@ -31,14 +31,13 @@ export const EditUserModal = ({ isOpen, handleModalClose, handleFormSubmit, sele
                 name="basic"
                 labelCol={{ span: 6 }}
                 wrapperCol={{ span: 16 }}
-                initialValues={{ remember: true }}
                 onFinish={submitForm}
                 autoComplete="off"
                 form={form}
             >
                 <Spacer height={24} />
                 <Form.Item label="Imię" name="name" rules={nameRules} initialValue={selectedUser?.name}>
-                    <Input />
+                    <Input/>
                 </Form.Item>
                 <Spacer />
                 <Form.Item label="Nazwisko" name="surname" rules={lastNameRules} initialValue={selectedUser?.surname}>
